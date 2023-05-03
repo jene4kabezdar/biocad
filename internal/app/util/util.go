@@ -3,13 +3,14 @@ package util
 import (
 	"time"
 
+	"github.com/jene4kabezdar/biocad/internal/app/files"
 	"github.com/jene4kabezdar/biocad/internal/app/store"
 )
 
 func HandleError(err error, store store.Store) {
 	if err != nil {
 		insertError(err.Error(), store)
-
+		files.WriteErrorLog(err.Error())
 	}
 }
 

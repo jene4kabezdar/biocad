@@ -2,6 +2,7 @@ package files
 
 import (
 	"strings"
+	"os"
 
 	"github.com/johnfercher/maroto/pkg/consts"
 	"github.com/johnfercher/maroto/pkg/pdf"
@@ -39,28 +40,18 @@ func ProcessingData(rows [][]string) [][]string {
 	return mRows
 }
 
-func WritePDF(path string, data [][]string) error {
+func WritePDF(path string, data string) error {
 	m := pdf.NewMaroto(consts.Portrait, consts.A4)
 
-	for _, str := range data {
-		m.Row(10, func() {
-			m.Col(5, func() {
-				m.Text(str[0], props.Text{
-					Top:         12,
-					Size:        10,
-					Extrapolate: false,
-				})
-			})
-			m.ColSpace(2)
-			m.Col(5, func() {
-				m.Text(str[1], props.Text{
-					Top:         12,
-					Size:        10,
-					Extrapolate: false,
-				})
+	m.Row(10, func() {
+		m.Col(5, func() {
+			m.Text(data, props.Text{
+				Top:         12,
+				Size:        20,
+				Extrapolate: false,
 			})
 		})
-	}
+	})
 
 	m.SetBorder(false)
 
@@ -68,5 +59,19 @@ func WritePDF(path string, data [][]string) error {
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+func WriteErrorLog(errorText string) error {
+	f, err := os.OpenFile("outdata/errors/errors.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+    if err != nil {
+		return err
+    }
+    if _, err := f.Write([]byte(errorText)); err != nil {
+        return err
+    }
+    if err := f.Close(); err != nil {
+        return err
+    }
 	return nil
 }

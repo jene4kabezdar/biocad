@@ -5,6 +5,7 @@ import (
 	"errors"
 	"log"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/jene4kabezdar/biocad/internal/app/files"
@@ -56,6 +57,8 @@ func main() {
 						if message.Unit_guid == "" {
 							util.HandleError(errors.New("not enough unit_guid"), store)
 						}
+						files.WritePDF("outdata/ids/" + strconv.Itoa(message.Number), 
+							message.Unit_guid)
 						_, err := message.Add(store)
 						util.HandleError(err, store)
 					}
