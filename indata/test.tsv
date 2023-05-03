@@ -1,3 +1,0 @@
-номер	mqtt	инвентарный гуид	id сообщения	текст сообщения	среда	класс	уровень	Зона переменных	адрес	тип	номер бита
-n	mqtt	invid	unit_guid	msg_id	text	context	class	level	area	addr	block	type	bit	invert_bit
-3		G-044322	01749246-95f6-57db-b7c3-2ae0e8be671f	cold7_Defrost_status	Разморозка		waiting	100	LOCAL	cold7_status.Defrost_status
