@@ -3,6 +3,9 @@ package files
 import (
 	"strings"
 
+	"github.com/johnfercher/maroto/pkg/consts"
+	"github.com/johnfercher/maroto/pkg/pdf"
+	"github.com/johnfercher/maroto/pkg/props"
 	"github.com/xuri/excelize/v2"
 )
 
@@ -34,4 +37,36 @@ func ProcessingData(rows [][]string) [][]string {
 		mRows[i] = mRow
 	}
 	return mRows
+}
+
+func WritePDF(path string, data [][]string) error {
+	m := pdf.NewMaroto(consts.Portrait, consts.A4)
+
+	for _, str := range data {
+		m.Row(10, func() {
+			m.Col(5, func() {
+				m.Text(str[0], props.Text{
+					Top:         12,
+					Size:        10,
+					Extrapolate: false,
+				})
+			})
+			m.ColSpace(2)
+			m.Col(5, func() {
+				m.Text(str[1], props.Text{
+					Top:         12,
+					Size:        10,
+					Extrapolate: false,
+				})
+			})
+		})
+	}
+
+	m.SetBorder(false)
+
+	err := m.OutputFileAndClose(path)
+	if err != nil {
+		return err
+	}
+	return nil
 }

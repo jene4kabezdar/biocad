@@ -8,19 +8,19 @@ import (
 )
 
 func main() {
-	rows, err := files.ParseStartData()
-	util.HandleError(err)
-
 	var store store.Store
 	defer store.Close()
 	store.ConfigureStore()
 	store.Open()
 
+	rows, err := files.ParseStartData()
+	util.HandleError(err, store)
+
 	messages, err := model.CreateMessagesByRows(rows)
-	util.HandleError(err)
+	util.HandleError(err, store)
 
 	for _, message := range messages {
 		_, err := message.Add(store)
-		util.HandleError(err)
+		util.HandleError(err, store)
 	}
 }

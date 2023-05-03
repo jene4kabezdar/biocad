@@ -1,18 +1,31 @@
 package util
 
-import "log"
+import (
+	"time"
 
-func HandleError(err error) {
+	"github.com/jene4kabezdar/biocad/internal/app/store"
+)
+
+func HandleError(err error, store store.Store) {
 	if err != nil {
-		log.Fatal(err)
+		insertError(err.Error(), store)
+
 	}
 }
 
 func InArrStr(str string, strArr []string) bool {
 	for _, s := range strArr {
-		if s == str {			
+		if s == str {
 			return true
 		}
 	}
 	return false
+}
+
+func insertError(message string, store store.Store) {
+
+	store.DB.QueryRow(
+		`INSERT INTO errors (error_text, error_date) VALUES ($1, $2) RETURNING n`,
+		message, time.Now().Format("02-01-2006 15:04"),
+	)
 }
