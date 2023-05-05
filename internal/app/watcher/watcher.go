@@ -15,6 +15,7 @@ import (
 )
 
 func Start(store store.Store) {
+	log.Println("watcher start")
 	entries, err := os.ReadDir("indata")
 	util.HandleError(err, store)
 
@@ -30,6 +31,7 @@ func Start(store store.Store) {
 		entries, err = os.ReadDir("indata")
 		util.HandleError(err, store)
 		if len(entries) > amountEntries {
+			log.Println("find new file")
 			for _, e := range entries {
 				if !util.InArrStr(e.Name(), names) {
 					names = append(names, e.Name())
