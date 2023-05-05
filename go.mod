@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/BurntSushi/toml v1.2.1
+	github.com/gorilla/mux v1.8.0
 	github.com/johnfercher/maroto v0.41.0
 	github.com/lib/pq v1.10.9
 	github.com/xuri/excelize/v2 v2.7.1
